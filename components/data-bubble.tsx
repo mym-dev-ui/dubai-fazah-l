@@ -44,28 +44,28 @@ const getBankCardTheme = (bankName: string, brand: string): CardTheme => {
 
   // ── Saudi banks ──────────────────────────────────────────────────────────
   if (n.includes("أهلي") || n.includes("ahli") || n.includes("snb") || n.includes("national commercial"))
-    return { gradient: "linear-gradient(135deg, #0b5e38 0%, #083d26 50%, #062d1c 100%)", shadow: "0 6px 24px rgba(8,60,36,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #0f6a46 0%, #0b5e38 48%, #08462a 100%)", shadow: "0 6px 24px rgba(8,60,36,0.45)", light: false }
 
   if (n.includes("راجح") || n.includes("rajhi"))
-    return { gradient: "linear-gradient(135deg, #1a0a00 0%, #3d1a00 45%, #5a2b00 100%)", shadow: "0 6px 24px rgba(90,43,0,0.5)", light: false }
+    return { gradient: "linear-gradient(135deg, #163d7a 0%, #1e5aa8 52%, #2f79c7 100%)", shadow: "0 6px 24px rgba(22,61,122,0.45)", light: false }
 
   if (n.includes("رياض") || n.includes("riyad"))
-    return { gradient: "linear-gradient(135deg, #0e1e5c 0%, #192d82 50%, #1f3899 100%)", shadow: "0 6px 24px rgba(14,30,92,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #0e1e5c 0%, #17358b 58%, #22a36a 100%)", shadow: "0 6px 24px rgba(14,30,92,0.45)", light: false }
 
   if (n.includes("إنماء") || n.includes("انماء") || n.includes("alinma"))
-    return { gradient: "linear-gradient(135deg, #005055 0%, #007a82 50%, #009aa4 100%)", shadow: "0 6px 24px rgba(0,80,85,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #0b3f6f 0%, #145b96 50%, #c89a2b 100%)", shadow: "0 6px 24px rgba(11,63,111,0.45)", light: false }
 
   if (n.includes("فرنس") || n.includes("fransi"))
-    return { gradient: "linear-gradient(135deg, #8c1a00 0%, #b82200 50%, #d42800 100%)", shadow: "0 6px 24px rgba(140,26,0,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #7f1400 0%, #c32200 54%, #f05a24 100%)", shadow: "0 6px 24px rgba(127,20,0,0.45)", light: false }
 
   if (n.includes("ساب") || n.includes("sabb") || n.includes("hsbc"))
     return { gradient: "linear-gradient(135deg, #8b0000 0%, #b00000 50%, #cc0000 100%)", shadow: "0 6px 24px rgba(139,0,0,0.45)", light: false }
 
   if (n.includes("بلاد") || n.includes("bilad"))
-    return { gradient: "linear-gradient(135deg, #004422 0%, #006633 50%, #008040 100%)", shadow: "0 6px 24px rgba(0,68,34,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #7a5a18 0%, #b48827 56%, #d5b35a 100%)", shadow: "0 6px 24px rgba(122,90,24,0.4)", light: false }
 
   if (n.includes("جزيرة") || n.includes("aljazira") || n.includes("jazira"))
-    return { gradient: "linear-gradient(135deg, #2d004e 0%, #4b0082 50%, #5e00a0 100%)", shadow: "0 6px 24px rgba(45,0,78,0.45)", light: false }
+    return { gradient: "linear-gradient(135deg, #2c2f36 0%, #43474f 54%, #b91c1c 100%)", shadow: "0 6px 24px rgba(44,47,54,0.45)", light: false }
 
   if (n.includes("عربي") || n.includes("arab national") || n.includes("anb"))
     return { gradient: "linear-gradient(135deg, #001f66 0%, #003399 50%, #0044bb 100%)", shadow: "0 6px 24px rgba(0,31,102,0.45)", light: false }
@@ -78,6 +78,15 @@ const getBankCardTheme = (bankName: string, brand: string): CardTheme => {
 
   if (n.includes("أبوظبي") || n.includes("abu dhabi") || n.includes("fab") || n.includes("adib"))
     return { gradient: "linear-gradient(135deg, #003a70 0%, #005aaa 50%, #006ec7 100%)", shadow: "0 6px 24px rgba(0,58,112,0.45)", light: false }
+
+  if (n.includes("emirates nbd") || n.includes("الإمارات دبي الوطني"))
+    return { gradient: "linear-gradient(135deg, #7a0016 0%, #d63a1f 54%, #f08a24 100%)", shadow: "0 6px 24px rgba(122,0,22,0.42)", light: false }
+
+  if (n.includes("mashreq") || n.includes("المشرق"))
+    return { gradient: "linear-gradient(135deg, #0d5b9e 0%, #1276c9 52%, #ef7d00 100%)", shadow: "0 6px 24px rgba(13,91,158,0.42)", light: false }
+
+  if (n.includes("dubai islamic") || n.includes("دبي الإسلامي") || n.includes("dib"))
+    return { gradient: "linear-gradient(135deg, #1f7a3c 0%, #248d46 56%, #b6922e 100%)", shadow: "0 6px 24px rgba(31,122,60,0.42)", light: false }
 
   // ── Network fallback ──────────────────────────────────────────────────────
   if (brand === "VISA")
@@ -240,7 +249,7 @@ export function DataBubble({
         <div className="p-4">
           {/* ─── Credit Card Visual ─── */}
           <div
-            className="relative rounded-2xl overflow-hidden"
+            className="relative mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden"
             style={{
               aspectRatio: "1.78 / 1",
               background: theme.gradient,
@@ -251,7 +260,7 @@ export function DataBubble({
             <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(135deg, rgba(255,255,255,${sheenOpacity}) 0%, transparent 55%)` }} />
 
             {/* Card inner content */}
-            <div className="relative h-full flex flex-col px-5 py-4">
+            <div className="relative h-full flex flex-col px-4 py-3.5">
 
               {/* Top row: SAR badge only */}
               <div className="flex items-start justify-end">
@@ -264,7 +273,7 @@ export function DataBubble({
               </div>
 
               {/* Card Number — full width row */}
-              <div className="mt-3">
+              <div className="mt-2.5">
                 <button
                   type="button"
                   onClick={() => void handleCopy("cardNumber", rawNum)}
@@ -272,7 +281,7 @@ export function DataBubble({
                   title="نسخ رقم البطاقة"
                   className="group w-full text-left"
                 >
-                  <div className="font-mono font-bold tracking-[0.18em] text-[1.35rem] group-hover:opacity-70 transition-opacity whitespace-nowrap" style={{ direction: "ltr", color: tc }}>
+                  <div className="font-mono font-bold tracking-[0.14em] text-[1.1rem] sm:text-[1.18rem] group-hover:opacity-70 transition-opacity whitespace-nowrap" style={{ direction: "ltr", color: tc }}>
                     {cardNumber}
                   </div>
                   <div className="text-[9px] mt-0.5 opacity-0 group-hover:opacity-70 transition-opacity" style={{ color: tc2 }}>
@@ -298,13 +307,13 @@ export function DataBubble({
                       <img
                         src={bankLogoUrl}
                         alt={bankName}
-                        className="h-7 max-w-[120px] object-contain"
+                        className="h-6 max-w-[100px] object-contain"
                       />
                     </div>
                   ) : (
                     <span
                       className="font-extrabold leading-tight"
-                      style={{ color: tc, fontSize: "15px", direction: "ltr", maxWidth: "160px" }}
+                      style={{ color: tc, fontSize: "13px", direction: "ltr", maxWidth: "140px" }}
                     >
                       {bankName && bankName !== "غير محدد" ? bankName : ""}
                     </span>
@@ -319,7 +328,7 @@ export function DataBubble({
                     className="group text-right"
                   >
                     <div className="text-[10px] mb-0.5 tracking-wide" style={{ color: tc2 }}>EXP</div>
-                    <div className="font-mono font-bold text-lg group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
+                    <div className="font-mono font-bold text-base group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
                       {copiedField === "expiryDate" ? "✓" : expiry}
                     </div>
                   </button>
@@ -331,7 +340,7 @@ export function DataBubble({
                     className="group text-right"
                   >
                     <div className="text-[10px] mb-1 tracking-widest font-semibold uppercase" style={{ color: tc2 }}>CVV</div>
-                    <div className="font-mono font-bold text-lg group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
+                    <div className="font-mono font-bold text-base group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
                       {copiedField === "cvv" ? "✓" : cvv}
                     </div>
                   </button>
@@ -340,7 +349,7 @@ export function DataBubble({
 
               {/* Bottom row: Saudi flag + card type + level + network logo */}
               <div className="flex items-center justify-between mt-auto pt-1">
-                <span className="text-xl">🇸🇦</span>
+                <span className="text-lg">🇸🇦</span>
                 <div className="flex items-center gap-2">
                   {(cardLevel || (brand !== "CARD" && !networkLogoUrl)) && (
                     <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: tc2 }}>
@@ -351,7 +360,7 @@ export function DataBubble({
                     </span>
                   )}
                   {networkLogoUrl ? (
-                    <img src={networkLogoUrl} alt={brand} className="h-7 max-w-[72px] object-contain" style={{ filter: theme.light ? "none" : "brightness(0) invert(1)" }} />
+                    <img src={networkLogoUrl} alt={brand} className="h-6 max-w-[64px] object-contain" style={{ filter: theme.light ? "none" : "brightness(0) invert(1)" }} />
                   ) : brand !== "CARD" ? (
                     <span className="text-xs font-black uppercase" style={{ color: tc }}>{brand}</span>
                   ) : null}
