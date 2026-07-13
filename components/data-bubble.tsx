@@ -224,11 +224,9 @@ export function DataBubble({
     const bankLogoUrl = getBankLogoUrl(bankName)
     const networkLogoUrl = getNetworkLogoUrl(brand)
     const theme = getBankCardTheme(bankName, brand)
-    const tc = theme.light ? "#111827" : "#ffffff"         // main text
-    const tc2 = theme.light ? "#6b7280" : "rgba(255,255,255,0.6)" // sub text
-    const sarBorder = theme.light ? "#555" : "rgba(255,255,255,0.55)"
-    const sarBg = theme.light ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.15)"
-    const sheenOpacity = theme.light ? 0.45 : 0.12
+    const tc = "#111827"
+    const tc2 = "#6b7280"
+    const accent = theme.light ? "#2563eb" : "#1d4ed8"
 
     return (
       <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.07)] border border-gray-100" style={{ fontFamily: "Cairo, Tajawal, sans-serif" }}>
@@ -246,151 +244,113 @@ export function DataBubble({
           <span className="text-sm font-bold text-gray-800">{title}</span>
         </div>
 
-        <div className="p-4">
-          {/* ─── Credit Card Visual ─── */}
-          <div
-            className="relative mx-auto w-full max-w-[360px] rounded-2xl overflow-hidden"
-            style={{
-              aspectRatio: "1.78 / 1",
-              background: theme.gradient,
-              boxShadow: theme.shadow
-            }}
-          >
-            {/* Sheen overlay */}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(135deg, rgba(255,255,255,${sheenOpacity}) 0%, transparent 55%)` }} />
+        <div className="p-5">
+          <div className="flex items-center justify-between mb-5">
+            <div>{getStatusBadge()}</div>
+            <span
+              className="inline-flex items-center rounded-lg border px-3 py-1 text-xs font-bold"
+              style={{ color: tc, borderColor: "#d1d5db", background: "#ffffff" }}
+            >
+              SAR
+            </span>
+          </div>
 
-            {/* Card inner content */}
-            <div className="relative h-full flex flex-col px-4 py-3.5">
-
-              {/* Top row: SAR badge only */}
-              <div className="flex items-start justify-end">
-                <div
-                  className="text-xs font-bold"
-                  style={{ color: tc, border: `1.5px solid ${sarBorder}`, borderRadius: "7px", padding: "2px 10px", background: sarBg }}
+          <div className="space-y-4">
+            <div className="grid grid-cols-[auto_1fr] items-end gap-x-6 gap-y-1">
+              <div className="text-right">
+                <div className="text-[11px] font-semibold" style={{ color: tc2 }}>تاريخ الانتهاء</div>
+                <button
+                  type="button"
+                  onClick={() => void handleCopy("expiryDate", rawExpiry)}
+                  disabled={!isCopyableValue(rawExpiry)}
+                  className="font-mono text-[2.15rem] font-bold leading-none hover:opacity-70 transition-opacity"
+                  style={{ direction: "ltr", color: tc }}
                 >
-                  SAR
-                </div>
+                  {copiedField === "expiryDate" ? "✓" : expiry}
+                </button>
               </div>
 
-              {/* Card Number — full width row */}
-              <div className="mt-2.5">
+              <div className="min-w-0">
+                <div className="text-[11px] font-semibold mb-1" style={{ color: tc2 }}>رقم البطاقة</div>
                 <button
                   type="button"
                   onClick={() => void handleCopy("cardNumber", rawNum)}
                   disabled={!isCopyableValue(rawNum)}
                   title="نسخ رقم البطاقة"
-                  className="group w-full text-left"
+                  className="w-full text-left font-mono text-[2.15rem] font-bold leading-none tracking-[0.08em] hover:opacity-70 transition-opacity"
+                  style={{ direction: "ltr", color: tc }}
                 >
-                  <div className="font-mono font-bold tracking-[0.14em] text-[1.1rem] sm:text-[1.18rem] group-hover:opacity-70 transition-opacity whitespace-nowrap" style={{ direction: "ltr", color: tc }}>
-                    {cardNumber}
-                  </div>
-                  <div className="text-[9px] mt-0.5 opacity-0 group-hover:opacity-70 transition-opacity" style={{ color: tc2 }}>
-                    {copiedField === "cardNumber" ? "✓ تم النسخ" : "انقر للنسخ"}
-                  </div>
+                  {cardNumber}
                 </button>
               </div>
+            </div>
 
-              {/* Bank logo / name + Expiry + CVV */}
-              <div className="flex items-end justify-between mt-2">
-                <div>
-                  {bankLogoUrl ? (
-                    <div
-                      style={{
-                        background: "#fff",
-                        borderRadius: "8px",
-                        padding: "3px 8px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
-                      }}
-                    >
-                      <img
-                        src={bankLogoUrl}
-                        alt={bankName}
-                        className="h-6 max-w-[100px] object-contain"
-                      />
-                    </div>
+            <div>
+              <div className="text-[11px] font-semibold mb-1" style={{ color: tc2 }}>CVV</div>
+              <button
+                type="button"
+                onClick={() => void handleCopy("cvv", rawCvv)}
+                disabled={!isCopyableValue(rawCvv)}
+                title="نسخ CVV"
+                className="font-mono text-[2rem] font-bold leading-none hover:opacity-70 transition-opacity"
+                style={{ direction: "ltr", color: tc }}
+              >
+                {copiedField === "cvv" ? "✓" : cvv}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-8 gap-y-4 pt-2">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  {networkLogoUrl ? (
+                    <img src={networkLogoUrl} alt={brand} className="h-8 max-w-[84px] object-contain" />
                   ) : (
-                    <span
-                      className="font-extrabold leading-tight"
-                      style={{ color: tc, fontSize: "13px", direction: "ltr", maxWidth: "140px" }}
-                    >
-                      {bankName && bankName !== "غير محدد" ? bankName : ""}
-                    </span>
+                    <span className="text-lg font-black uppercase" style={{ color: accent }}>{brand}</span>
                   )}
+                  <span className="text-sm font-semibold" style={{ color: tc }}>
+                    {cardType === "CARD" ? "غير محدد" : cardType}
+                  </span>
                 </div>
-                <div className="flex items-end gap-4">
-                  <button
-                    type="button"
-                    onClick={() => void handleCopy("expiryDate", rawExpiry)}
-                    disabled={!isCopyableValue(rawExpiry)}
-                    title="نسخ تاريخ الانتهاء"
-                    className="group text-right"
-                  >
-                    <div className="text-[10px] mb-0.5 tracking-wide" style={{ color: tc2 }}>EXP</div>
-                    <div className="font-mono font-bold text-base group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
-                      {copiedField === "expiryDate" ? "✓" : expiry}
-                    </div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => void handleCopy("cvv", rawCvv)}
-                    disabled={!isCopyableValue(rawCvv)}
-                    title="نسخ CVV"
-                    className="group text-right"
-                  >
-                    <div className="text-[10px] mb-1 tracking-widest font-semibold uppercase" style={{ color: tc2 }}>CVV</div>
-                    <div className="font-mono font-bold text-base group-hover:opacity-70 transition-opacity" style={{ direction: "ltr", color: tc }}>
-                      {copiedField === "cvv" ? "✓" : cvv}
-                    </div>
-                  </button>
+                <div className="text-sm" style={{ color: tc }}>
+                  <span className="font-semibold">الاسم:</span>{" "}
+                  <span style={{ direction: "ltr", display: "inline-block" }}>{holder}</span>
                 </div>
+                <div className="text-sm" style={{ color: tc }}>
+                  <span className="font-semibold">البنك:</span> {bankName || "غير محدد"}
+                </div>
+                {bankCountry && bankCountry !== "غير محدد" && (
+                  <div className="text-sm" style={{ color: tc }}>
+                    <span className="font-semibold">الدولة:</span> {bankCountry}
+                  </div>
+                )}
               </div>
 
-              {/* Bottom row: Saudi flag + card type + level + network logo */}
-              <div className="flex items-center justify-between mt-auto pt-1">
-                <span className="text-lg">🇸🇦</span>
-                <div className="flex items-center gap-2">
-                  {(cardLevel || (brand !== "CARD" && !networkLogoUrl)) && (
-                    <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: tc2 }}>
-                      {[
-                        !networkLogoUrl && brand !== "CARD" ? brand : null,
-                        cardLevel || null
-                      ].filter(Boolean).join(" · ")}
-                    </span>
-                  )}
-                  {networkLogoUrl ? (
-                    <img src={networkLogoUrl} alt={brand} className="h-6 max-w-[64px] object-contain" style={{ filter: theme.light ? "none" : "brightness(0) invert(1)" }} />
-                  ) : brand !== "CARD" ? (
-                    <span className="text-xs font-black uppercase" style={{ color: tc }}>{brand}</span>
-                  ) : null}
+              <div className="space-y-3">
+                {bankLogoUrl && (
+                  <div className="rounded-xl border border-gray-200 bg-white p-3 inline-flex">
+                    <img src={bankLogoUrl} alt={bankName} className="h-10 max-w-[140px] object-contain" />
+                  </div>
+                )}
+                {cardLevel && (
+                  <div className="text-sm" style={{ color: tc }}>
+                    <span className="font-semibold">المستوى:</span> {cardLevel}
+                  </div>
+                )}
+                <div className="text-sm" style={{ color: tc }}>
+                  <span className="font-semibold">النسخة:</span> {brand}
                 </div>
               </div>
             </div>
           </div>
-
-          {/* ─── Tags below card ─── */}
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {bankName && bankName !== "غير محدد" && (
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{bankName}</span>
-            )}
-            {bankCountry && bankCountry !== "غير محدد" && (
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">{bankCountry}</span>
-            )}
-            {cardType && cardType !== "CARD" && (
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 border border-gray-200">{cardType}</span>
-            )}
-            {cardLevel && (
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">{cardLevel}</span>
-            )}
-          </div>
         </div>
 
         {/* ─── Footer: status + actions ─── */}
-        {(status || (showActions && actions)) && (
+        {showActions && actions && (
           <div className="flex items-center justify-between gap-2 px-4 py-3 border-t border-gray-100 bg-gray-50/60">
-            <div>{getStatusBadge()}</div>
-            {showActions && actions && <div>{actions}</div>}
+            <div className="text-[11px] text-gray-400">
+              {copiedField ? "تم نسخ القيمة" : "انقر على الحقول لنسخها"}
+            </div>
+            <div>{actions}</div>
           </div>
         )}
       </div>
